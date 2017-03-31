@@ -1,0 +1,29 @@
+{
+  "name": "angular-webpack-starter",
+  "version": "1.0.0",
+  "description": "NextGenVest Front End Challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server ./ -a localhost -p 8000 -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "webpack",
+    "build-css": "node-sass -w assets/stylesheets/index.scss -o public/stylesheets"
+  },
+  "keywords": [
+    "code",
+    "challenge",
+    "NextGenVest",
+    "frontend"
+  ],
+  "author": "sianokotoba",
+  "license": "ISC",
+  "devDependencies": {
+    "angular": "^1.6.4",
+    "node-sass": "^4.5.2",
+    "sass-loader": "^6.0.3",
+    "webpack": "^2.3.2"
+  },
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
+}
