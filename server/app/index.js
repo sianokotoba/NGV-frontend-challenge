@@ -6,23 +6,22 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 module.exports = app;
 
-// Pass our express application pipeline into the configuration
-// function located at server/app/configure/index.js
+// Pass our express application pipeline
 var npmPath = path.join(__dirname, '../../node_modules');
 var publicPath = path.join(__dirname, '../../public');
 var indexPath = path.join(__dirname, '../../index.html');
+var jsPath = path.join(__dirname, '../../js');
+var angAppPath = path.join(__dirname, '../../app');
 
-console.log("PATH???", indexPath)
-console.log("Typeof", typeof indexPath)
-console.log("NPM", npmPath)
-console.log("PUBLIC", publicPath)
 
 app
+  .use(morgan('dev'))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  .use(morgan('dev'))
   .use(express.static(npmPath))
   .use(express.static(publicPath))
+  .use(express.static(jsPath))
+  .use(express.static(angAppPath))
   .use('/api', require('../routes'))
 
 
