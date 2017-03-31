@@ -38,8 +38,9 @@ angular.module('dashboard').service('GithubStatusService', __webpack_require__(7
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-angular.module('dashboard', []);
-
+angular.module('dashboard', [
+  'ngAnimate'
+]);
 
 __webpack_require__(2);
 __webpack_require__(3);
@@ -117,3 +118,4 @@ module.exports = GithubStatusService;
 
 /***/ })
 ],[4]);
+//# sourceMappingURL=app.bundle.js.map

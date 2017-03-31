@@ -1,5 +1,6 @@
-angular.module('dashboard', []);
-
+angular.module('dashboard', [
+  'ngAnimate'
+]);
 
 require('./directives');
 require('./services');

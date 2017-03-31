@@ -7,20 +7,35 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         <script src="js/angular.min.js"></script>
+        <script src="angular/angular.js"></script>
+        <script src="angular-animate/angular-animate.js"></script>
+        <!--<script src="app/app.module.js"></script>
+        <script src="app/app.config.js"></script>-->
         <script src="app/app.js"></script>
         <script src="app/directives/yep-nope.directive.js"></script>
         <script src="app/services/github-status.service.js"></script>
         <script src="app/controllers/dashboard.controller.js"></script>
+        <!--<script src="app/main/main.module.js"></script>
+        <script src="app/main/main.component.js"></script>-->
 
-        <script src=”js/vendor.bundle.js”></script>
-        <script src=”js/app.bundle.js”></script>
+        <script src="js/vendor.bundle.js"></script>
+        <script src="js/app.bundle.js"></script>
     </head>
     <body ng-app="dashboard">
         <div class="container">
-        <br />
-        <div ng-controller="dashboardController as ctrl">
-            <div class="alert alert-danger" ng-class="{'alert-danger': !ctrl.github, 'alert-success': ctrl.github}">Is GitHub Up? <yep-nope check="ctrl.github"></yep-nope></div>
+            <br />
+            <div ng-controller="dashboardController as ctrl">
+                <div class="alert alert-danger" ng-class="{'alert-danger': !ctrl.github, 'alert-success': ctrl.github}">Is GitHub Up? <yep-nope check="ctrl.github"></yep-nope></div>
+            </div>
         </div>
+        <div ng-init="checked=true">
+            <label>
+                <input type="checkbox" ng-model="checked" />
+                Is visible
+            </label>
+            <div class="content-area sample-show-hide" ng-show="checked">
+                Content...
+            </div>
         </div>
     </body>
 </html>
