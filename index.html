@@ -32,7 +32,7 @@
             <form name="myForm" ng-submit="loan.submit()">
                 <label>
                     Loan Amount:
-                    <input type="text" name="userName" ng-model="loan.loanAmt" required>
+                    <input type="text" name="loanAmtInput" ng-model="loanAmt" required>
                     </label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
@@ -41,7 +41,7 @@
 
                 <label>
                     Interest Rate:
-                    <input type="text" name="userName" ng-model="loan.intRate" required> % per year
+                    <input type="text" name="intRateInput" ng-model="loan.intRate" required> % per year
 										</label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
@@ -51,7 +51,7 @@
 
                 <label>
                     Loan Period:
-                    <input type="text" name="userName" ng-model="loan.loanPd" place-holder="0.00" required> in months
+                    <input type="text" name="loanPdInput" ng-model="loan.loanPd" place-holder="0.00" required> in months
                     </label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
@@ -60,12 +60,10 @@
 
 								<input type="submit" id="submit" value="Submit" />
             </form>
-        </div>
-        <div ng-controller="chartCtrl">
-					<div>
-          	<div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
+					<div ng-controller="chartCtrl as chart">
+						<div zingchart id="chart-1" zc-json="chart.myJson" zc-width="100%" zc-height="568px"></div>
 					</div>
-				</div>
+        </div>
         <!--</div>-->
         <div ng-init="checked=false">
             <label>

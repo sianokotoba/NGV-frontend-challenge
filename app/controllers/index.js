@@ -3,12 +3,21 @@
 var angular = require('angular');
 
 angular.module('main')
+  .controller('loanCtrl', LoanController)
   .controller('chartCtrl', ChartController)
-  .controller('loanCtrl', LoanController);
 
 
 function ChartController($scope) {
- $scope.myJson = {
+  var _this = this;
+
+  $scope.subVals = [];
+  $scope.unsubVals = [];
+  $scope.bankVals = [];
+  $scope.uniVals = [];
+
+
+
+  _this.myJson = {
     gui: {
       contextMenu: {
         button: {
@@ -101,42 +110,26 @@ function ChartController($scope) {
         }
     },
     series: [{
-        text: "All Sites",
-        values: [2596, 2626, 4480,
-                  6394, 7488, 14510,
-                  7012, 10389, 20281,
-                  25597, 23309, 22385,
-                  25097, 20813, 20510],
+        text: "Direct Subsidized",
+        values: $scope.subVals,
         backgroundColor1: "#77d9f8",
         backgroundColor2: "#272822",
         lineColor: "#40beeb"
     }, {
-        text: "Site 1",
-        values: [479, 199, 583,
-                  1624, 2772, 7899,
-                  3467, 3227, 12885,
-                  17873, 14420, 12569,
-                  17721, 11569, 7362],
+        text: "Direct Unsubsidized",
+        values: $scope.unsubVals,
         backgroundColor1: "#4AD8CC",
         backgroundColor2: "#272822",
         lineColor: "#4AD8CC"
     }, {
-        text: "Site 2",
-        values: [989, 1364, 2161,
-                  2644, 1754, 2015,
-                  818, 77, 1260,
-                  3912, 1671, 1836,
-                  2589, 1706, 1161],
+        text: "Private Bank",
+        values: $scope.bankVals,
         backgroundColor1: "#1D8CD9",
         backgroundColor2: "#1D8CD9",
         lineColor: "#1D8CD9"
     }, {
-        text: "Site 3",
-        values: [408, 343, 410,
-                  840, 1614, 3274,
-                  2092, 914, 5709,
-                  6317, 6633, 6720,
-                  6504, 6821, 4565],
+        text: "University",
+        values: $scope.uniVals,
         backgroundColor1: "#D8CD98",
         backgroundColor2: "#272822",
         lineColor: "#D8CD98"
@@ -171,19 +164,73 @@ function ChartController($scope) {
   ]
 
   $scope.test = "I am a test"
+
+  $scope.$watch($scope.bankVals, function(newVal, oldVal) {
+    console.log("SCOPE???????", $scope)
+  })
+
+  // console.log("$SC find for payment array", $scope)
 }
 
+function calculate(amt, rate, time) {
+  /*
+  Daily Interest = Current Principle Balance * Interest Rate / 365.25
+  Monthly Interest = Daily Interest * Number of Days in the Month
+  */
+
+  let dailyInt = (amt * rate) / 365.25;
+  let monthlyInt = dailyInt * 30;
+  let monthly = (amt / time) + monthlyInt;
+
+  return monthly;
+}
+
+function payment(total, monthly) {
+  let array = [];
+  while (total > 0) {
+    let diff = total - monthly > 0 ? total - monthly : null;
+    if (diff) {
+      array.push(diff);
+    }
+    total -= monthly;
+  }
+  return array;
+}
 
 function LoanController($scope) {
-  // $scope.loanAmt = 0;
   var _this = this;
-  _this.loanAmt = 0;
+  // local state
   _this.intRate = 0.00;
   _this.loanPd = 0;
 
+  $scope.loanAmt = 0;
+  // global state
+  $scope.monthlyPayment = 0;
+  $scope.monthlyUnsub = 0;
+  $scope.monthlySub = 0;
+  $scope.monthlyBank = 0;
+  $scope.monthlyUni = 0;
+
   _this.submit = function() {
-    if (_this.loanAmt && _this.intRate && _this.loanPd) {
-      console.log("WORKING?", $scope)
+    if ($scope.loanAmt && _this.intRate && _this.loanPd) {
+      console.log("HITT?")
+      $scope.monthlyPayment = calculate($scope.loanAmt, _this.intRate, _this.loanPd);
+      $scope.monthlyUnsub = 0;
+      $scope.monthlySub = 0;
+      $scope.monthlyBank = calculate($scope.loanAmt, 0.042, _this.loanPd);
+      $scope.monthlyUni = calculate($scope.loanAmt, 0.040, _this.loanPd);
     }
+
+    if ($scope.loanAmt) {
+      console.log("HERE?")
+      console.log("NEXT?", $scope.$$nextSibling)
+      $scope.$$nextSibling.bankVals = payment($scope.loanAmt, $scope.monthlyBank);
+      $scope.$$nextSibling.uniVals = payment($scope.loanAmt, $scope.monthlyUni);
+    }
+    console.log("NEW SCOPE", $scope)
   }
+
+  // if ($scope.$$nextSibling.loanAmt > 0) {
+  //   console.log("HI")
+  // }
 }
