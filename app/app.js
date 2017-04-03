@@ -1,8 +1,8 @@
 angular.module('main', [
-  'ngAnimate'
+  'ngAnimate',
+  'zingchart-angularjs'
 ]);
 
 require('./directives');
 require('./services');
 require('./controllers');
-// require('./templates');

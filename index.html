@@ -9,6 +9,9 @@
         <script src="angular.min.js"></script>
         <script src="angular/angular.js"></script>
         <script src="angular-animate/angular-animate.js"></script>
+        <!--<script type="text/javascript" src="zingchart-angularjs/src/zingchart.min.js"></script>-->
+        <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
+        <script src="https://cdn.zingchart.com/zingchart.min.js"></script
         <script src="app.js"></script>
         <!--<script src="directives/yep-nope.directive.js"></script>
         <script src="services/github-status.service.js"></script>
@@ -29,12 +32,13 @@
                     <li ng-repeat='month in months'>{{ month.name }}</li>
                 </ul>
                 </div>
+                <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
             </div>
         </div>
-        <div ng-init="checked=true">
+        <div ng-init="checked=false">
             <label>
                 <input type="checkbox" ng-model="checked" />
-                Is visible
+                Please choose the following loans:
             </label>
             <div class="content-area sample-show-hide" ng-show="checked">
                 Content...
