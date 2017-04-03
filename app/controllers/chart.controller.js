@@ -1,8 +1,5 @@
 'use strict';
 
-var angular = require('angular');
-
-// angular.module('dashboard').controller('dashboardController', require('./dashboard.controller'));
 function ChartController($scope) {
   console.log("HIT?")
   $scope.months = [
@@ -35,5 +32,3 @@ function ChartController($scope) {
 
   $scope.test = "I am a test"
 }
-angular.module('main')
-  .controller('chartCtrl', ChartController);

@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>Dashboard</title>
+        <title>NGV</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -10,18 +10,25 @@
         <script src="angular/angular.js"></script>
         <script src="angular-animate/angular-animate.js"></script>
         <script src="app.js"></script>
-        <script src="directives/yep-nope.directive.js"></script>
+        <!--<script src="directives/yep-nope.directive.js"></script>
         <script src="services/github-status.service.js"></script>
-        <script src="controllers/dashboard.controller.js"></script>
+        <script src="controllers/dashboard.controller.js"></script>-->
+        <script src="controllers/chart.controller.js"></script>
+        <script src="directives/chart.directive.js"></script>
 
         <script src="vendor.bundle.js"></script>
         <script src="app.bundle.js"></script>
     </head>
-    <body ng-app="dashboard">
+    <body ng-app="main">
         <div class="container">
             <br />
-            <div ng-controller="dashboardController as ctrl">
-                <div class="alert alert-danger" ng-class="{'alert-danger': !ctrl.github, 'alert-success': ctrl.github}">Is GitHub Up? <yep-nope check="ctrl.github"></yep-nope></div>
+            <div ng-controller="chartCtrl">
+                <div>
+                <h1>{{test}}</h1>
+                <ul>
+                    <li ng-repeat='month in months'>{{ month.name }}</li>
+                </ul>
+                </div>
             </div>
         </div>
         <div ng-init="checked=true">
