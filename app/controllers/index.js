@@ -2,6 +2,11 @@
 
 var angular = require('angular');
 
+angular.module('main')
+  .controller('chartCtrl', ChartController)
+  .controller('loanCtrl', LoanController);
+
+
 function ChartController($scope) {
  $scope.myJson = {
     gui: {
@@ -169,6 +174,6 @@ function ChartController($scope) {
 }
 
 
-angular.module('main')
-  .controller('chartCtrl', ChartController);
+function LoanController() {
 
+}

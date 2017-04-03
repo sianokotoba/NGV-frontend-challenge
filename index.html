@@ -1,40 +1,65 @@
 <!doctype html>
 <html>
-    <head>
-        <title>NGV</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<head>
+    <title>NGV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <script src="angular.min.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="angular-animate/angular-animate.js"></script>
+    <!--<script type="text/javascript" src="zingchart-angularjs/src/zingchart.min.js"></script>-->
+    <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src = "app.js"></script>
+    <!--<script src="directives/yep-nope.directive.js"></script>
+    <script src="services/github-status.service.js"></script>
+    <script src="controllers/dashboard.controller.js"></script>-->
+    <!--<script src="controllers/chart.controller.js"></script>-->
+    <!--<script src="directives/chart.directive.js"></script>-->
+    <script src="vendor.bundle.js"></script>
+    <script src="app.bundle.js"></script>
+</head>
 
-        <script src="angular.min.js"></script>
-        <script src="angular/angular.js"></script>
-        <script src="angular-animate/angular-animate.js"></script>
-        <!--<script type="text/javascript" src="zingchart-angularjs/src/zingchart.min.js"></script>-->
-        <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
-        <script src="https://cdn.zingchart.com/zingchart.min.js"></script
-        <script src="app.js"></script>
-        <!--<script src="directives/yep-nope.directive.js"></script>
-        <script src="services/github-status.service.js"></script>
-        <script src="controllers/dashboard.controller.js"></script>-->
-        <script src="controllers/chart.controller.js"></script>
-        <script src="directives/chart.directive.js"></script>
-
-        <script src="vendor.bundle.js"></script>
-        <script src="app.bundle.js"></script>
-    </head>
-    <body ng-app="main">
-        <div class="container">
-            <br />
-            <div ng-controller="chartCtrl">
-                <div>
+<body ng-app="main">
+    <div class="container">
+        <br />
+        <h1>Congratulations, you've been awarded a financial aid package!</h1>
+        <p>Please choose from the following loans:</p>
+        <div ng-controller="loanCtrl">
+            <form name="myForm">
+                <label>
+                    User name:
+                    <input type="text" name="userName" ng-model="user.name" required>
+                    </label>
+                <div role="alert">
+                    <span class="error" ng-show="myForm.userName.$error.required">
+                    Required!</span>
+                </div>
+                <label>
+                    Last name:
+                    <input type="text" name="lastName" ng-model="user.last"
+                    ng-minlength="3" ng-maxlength="10">
+                    </label>
+                <div role="alert">
+                    <span class="error" ng-show="myForm.lastName.$error.minlength">
+                        Too short!</span>
+                    <span class="error" ng-show="myForm.lastName.$error.maxlength">
+                        Too long!</span>
+                </div>
+            </form>
+        </div>
+        <div ng-controller="chartCtrl">
+            <div>
                 <h1>{{test}}</h1>
                 <ul>
                     <li ng-repeat='month in months'>{{ month.name }}</li>
                 </ul>
-                </div>
-                <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
             </div>
+            <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
         </div>
+        <!--</div>-->
         <div ng-init="checked=false">
             <label>
                 <input type="checkbox" ng-model="checked" />
@@ -44,5 +69,7 @@
                 Content...
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

@@ -8,6 +8,11 @@ webpackJsonp([0],[
 
 var angular = __webpack_require__(0);
 
+angular.module('main')
+  .controller('chartCtrl', ChartController)
+  .controller('loanCtrl', LoanController);
+
+
 function ChartController($scope) {
  $scope.myJson = {
     gui: {
@@ -175,9 +180,9 @@ function ChartController($scope) {
 }
 
 
-angular.module('main')
-  .controller('chartCtrl', ChartController);
+function LoanController() {
 
+}
 
 
 /***/ }),
@@ -190,7 +195,7 @@ angular.module('main')
 var angular = __webpack_require__(0);
 
 
-angular.module('main').directive('chart', __webpack_require__(6));
+// angular.module('main').directive('chart', require('./chart.directive'));
 // angular.module('dashboard').directive('yepNope', require('./yep-nope.directive'));
 
 
@@ -221,18 +226,7 @@ __webpack_require__(1);
 
 /***/ }),
 /* 5 */,
-/* 6 */
-/***/ (function(module, exports) {
-
-function ChartDirective() {
-  return {
-    restrict: 'E'
-    // templateUrl: '../templates/chart.template.html'
-  }
-}
-
-
-/***/ }),
+/* 6 */,
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
