@@ -6,135 +6,10 @@ angular.module('main')
   .controller('loanCtrl', LoanController)
   .controller('chartCtrl', ChartController)
 
-
 function ChartController($scope) {
   var _this = this;
 
-  $scope.subVals = [];
-  $scope.unsubVals = [];
-  $scope.bankVals = [];
-  $scope.uniVals = [];
 
-
-
-  _this.myJson = {
-    gui: {
-      contextMenu: {
-        button: {
-          visible: 0
-        }
-      }
-    },
-    backgroundColor: "#434343",
-    globals: {
-        shadow: false,
-        fontFamily: "Helvetica"
-    },
-    type: "area",
-
-    legend: {
-        layout: "x4",
-        backgroundColor: "transparent",
-        borderColor: "transparent",
-        marker: {
-            borderRadius: "50px",
-            borderColor: "transparent"
-        },
-        item: {
-            fontColor: "white"
-        }
-
-    },
-    scaleX: {
-        maxItems: 8,
-        transform: {
-            type: 'date'
-        },
-        zooming: true,
-        values: [
-          1442905200000, 1442908800000,
-          1442912400000, 1442916000000,
-          1442919600000, 1442923200000,
-          1442926800000, 1442930400000,
-          1442934000000, 1442937600000,
-          1442941200000, 1442944800000,
-          1442948400000
-        ],
-        lineColor: "white",
-        lineWidth: "1px",
-        tick: {
-            lineColor: "white",
-            lineWidth: "1px"
-        },
-        item: {
-            fontColor: "white"
-        },
-        guide: {
-            visible: false
-        }
-    },
-    scaleY: {
-        lineColor: "white",
-        lineWidth: "1px",
-        tick: {
-            lineColor: "white",
-            lineWidth: "1px"
-        },
-        guide: {
-            lineStyle: "solid",
-            lineColor: "#626262"
-        },
-        item: {
-            fontColor: "white"
-        },
-    },
-    tooltip: {
-        visible: false
-    },
-    crosshairX: {
-        scaleLabel: {
-            backgroundColor: "#fff",
-            fontColor: "black"
-        },
-        plotLabel: {
-            backgroundColor: "#434343",
-            fontColor: "#FFF",
-            _text: "Number of hits : %v"
-        }
-    },
-    plot: {
-        lineWidth: "2px",
-        aspect: "spline",
-        marker: {
-            visible: false
-        }
-    },
-    series: [{
-        text: "Direct Subsidized",
-        values: $scope.subVals,
-        backgroundColor1: "#77d9f8",
-        backgroundColor2: "#272822",
-        lineColor: "#40beeb"
-    }, {
-        text: "Direct Unsubsidized",
-        values: $scope.unsubVals,
-        backgroundColor1: "#4AD8CC",
-        backgroundColor2: "#272822",
-        lineColor: "#4AD8CC"
-    }, {
-        text: "Private Bank",
-        values: $scope.bankVals,
-        backgroundColor1: "#1D8CD9",
-        backgroundColor2: "#1D8CD9",
-        lineColor: "#1D8CD9"
-    }, {
-        text: "University",
-        values: $scope.uniVals,
-        backgroundColor1: "#D8CD98",
-        backgroundColor2: "#272822",
-        lineColor: "#D8CD98"
-    }]
-  };
   $scope.months = [
     {
       name: 'January'
@@ -197,8 +72,141 @@ function payment(total, monthly) {
   return array;
 }
 
-function LoanController($scope) {
+function LoanController($scope, DirectLoanService) {
+  $scope.DLS = DirectLoanService;
+  console.log("$scope.DLS", $scope)
   var _this = this;
+
+  $scope.subVals = [];
+  $scope.unsubVals = [];
+  $scope.bankVals = [];
+  $scope.uniVals = [];
+
+  _this.showChart = false;
+
+  $scope.myJson = {
+    gui: {
+      contextMenu: {
+        button: {
+          visible: 0
+        }
+      }
+    },
+    backgroundColor: "#434343",
+    globals: {
+        shadow: false,
+        fontFamily: "Helvetica"
+    },
+    type: "area",
+    title:{
+      text:"ZingChart Bar"
+    },
+    subtitle:{
+      text:"Default Style"
+    },
+    legend: {
+        layout: "5x1",
+        backgroundColor: "transparent",
+        borderColor: "transparent",
+        marker: {
+            borderRadius: "50px",
+            borderColor: "transparent"
+        },
+        item: {
+            fontColor: "white"
+        }
+        // x:"20%",
+        // y:"8%"
+
+    },
+    scaleX: {
+        maxItems: 100,
+        zooming: true,
+        label: 'Loan Period (months)',
+        values:[],
+        lineColor: "white",
+        lineWidth: "1px",
+        tick: {
+            lineColor: "white",
+            lineWidth: "1px"
+        },
+        item: {
+            fontColor: "white",
+            fontSize:"8px"
+        },
+        guide: {
+            visible: false
+        }
+    },
+    scaleY: {
+        lineColor: "white",
+        lineWidth: "1px",
+        tick: {
+            lineColor: "white",
+            lineWidth: "1px"
+        },
+        guide: {
+            lineStyle: "solid",
+            lineColor: "#626262"
+        },
+        item: {
+            fontColor: "white"
+        },
+    },
+    tooltip: {
+        visible: false
+    },
+    crosshairX: {
+        scaleLabel: {
+            backgroundColor: "#fff",
+            fontColor: "black"
+        },
+        plotLabel: {
+            backgroundColor: "#434343",
+            fontColor: "#FFF",
+            _text: "Number of hits : %v"
+        }
+    },
+    plot: {
+        lineWidth: "2px",
+        aspect: "spline",
+        marker: {
+            visible: false
+        }
+    },
+    series: [{
+        text: "Calculated Monthly Payment",
+        values: [],
+        backgroundColor1: "#B22222",
+        backgroundColor2: "#B22222",
+        lineColor: "#B22222"
+    }, {
+        text: "Direct Subsidized",
+        values: [],
+        backgroundColor1: "#77d9f8",
+        backgroundColor2: "#272822",
+        lineColor: "#40beeb"
+    }, {
+        text: "Direct Unsubsidized",
+        values: [],
+        backgroundColor1: "#4AD8CC",
+        backgroundColor2: "#272822",
+        lineColor: "#4AD8CC"
+    }, {
+        text: "Private Bank",
+        values: $scope.bankVals,
+        backgroundColor1: "#1D8CD9",
+        backgroundColor2: "#1D8CD9",
+        lineColor: "#1D8CD9"
+    }, {
+        text: "University",
+        values: $scope.uniVals,
+        backgroundColor1: "#D8CD98",
+        backgroundColor2: "#272822",
+        lineColor: "#D8CD98"
+    }]
+  };
+
   // local state
   _this.intRate = 0.00;
   _this.loanPd = 0;
@@ -223,12 +231,25 @@ function LoanController($scope) {
 
     if ($scope.loanAmt) {
       console.log("HERE?")
-      console.log("NEXT?", $scope.$$nextSibling)
-      $scope.$$nextSibling.bankVals = payment($scope.loanAmt, $scope.monthlyBank);
-      $scope.$$nextSibling.uniVals = payment($scope.loanAmt, $scope.monthlyUni);
+      console.log("NEXT?", $scope)
+      $scope.myJson.scaleX.values = [];
+      for (let i = 0; i <= _this.loanPd; i++) {
+        $scope.myJson.scaleX.values.push(i);
+      }
+      $scope.myJson.series[0].values = payment($scope.loanAmt, $scope.monthlyPayment);
+
+      $scope.myJson.series[2].values = payment($scope.loanAmt, $scope.monthlyBank);
+      $scope.myJson.series[3].values = payment($scope.loanAmt, $scope.monthlyUni);
+    }
+
+    if ($scope.myJson.series[2].values.length) {
+      _this.showChart = true;
+      DirectLoanService();
+      // console.log("DIR LOAN SERVICE", DirectLoanService());
     }
     console.log("NEW SCOPE", $scope)
   }
+
 
   // if ($scope.$$nextSibling.loanAmt > 0) {
   //   console.log("HI")
