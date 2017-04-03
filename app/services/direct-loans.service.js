@@ -24,4 +24,4 @@ function DirectLoanService($http) {
 //   return defaults.concat(transform);
 // }
 
-module.exports = DirectLoanService;
+// module.exports = DirectLoanService;

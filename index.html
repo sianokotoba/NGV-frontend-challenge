@@ -13,7 +13,7 @@
     <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script src = "app.js"></script>
-		    <script src="services/direct-loans.service.js"></script>
+		<script src="services/direct-loans.service.js"></script>
     <!--<script src="directives/yep-nope.directive.js"></script>
     <script src="services/github-status.service.js"></script>
     <script src="controllers/dashboard.controller.js"></script>-->
@@ -28,31 +28,30 @@
         <br />
         <h1>Congratulations, you've been awarded a financial aid package!</h1>
         <p>Please choose from the following loans:</p>
-        <div ng-controller="loanCtrl">
-            <form name="myForm">
+        <div>
+            <form name="myForm" ng-controller="loanCtrl as loan">
                 <label>
                     Loan Amount:
-                    <input type="text" name="userName" ng-model="loanAmt" required>
+                    <input type="text" name="userName" ng-model="loan.loanAmt" required>
                     </label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
                     Required!</span>
                 </div>
 
-                <label for="singleSelect"> Interest Rates: </label><br>
-								<select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
-										<option value="">---Please select---</option> <!-- not selected / blank option -->
-										<option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
-										<option value="option-sub">Option 2</option>
-										<option value="option-unsub">Option 2</option>
-										<option value="option-bank">Private Bank: 4.2%</option>
-										<option value="option-uni">University: 4.0%</option>
-								</select>
+                <label>
+                    Interest Rate:
+                    <input type="text" name="userName" ng-model="loan.intRate" required> % per year
+										</label>
+                <div role="alert">
+                    <span class="error" ng-show="myForm.userName.$error.required">
+                    Required!</span>
+                </div>
 								<br />
 
                 <label>
                     Loan Period:
-                    <input type="text" name="userName" ng-model="user.name" required> in months
+                    <input type="text" name="userName" ng-model="loan.loanPd" place-holder="0.00" required> in months
                     </label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
@@ -61,14 +60,10 @@
             </form>
         </div>
         <div ng-controller="chartCtrl">
-            <div>
-                <h1>{{test}}</h1>
-                <ul>
-                    <li ng-repeat='month in months'>{{ month.name }}</li>
-                </ul>
-            </div>
-            <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
-        </div>
+					<div>
+          	<div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
+					</div>
+				</div>
         <!--</div>-->
         <div ng-init="checked=false">
             <label>

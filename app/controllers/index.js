@@ -174,7 +174,10 @@ function ChartController($scope) {
 }
 
 
-function LoanController($scope) {
-  $scope.loanAmt = 0;
-
+function LoanController() {
+  // $scope.loanAmt = 0;
+  var _this = this;
+  _this.loanAmt = 0;
+  _this.intRate = 0.00;
+  _this.loanPd = 0;
 }
