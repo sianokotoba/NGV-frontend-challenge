@@ -13,6 +13,7 @@
     <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script src = "app.js"></script>
+		    <script src="services/direct-loans.service.js"></script>
     <!--<script src="directives/yep-nope.directive.js"></script>
     <script src="services/github-status.service.js"></script>
     <script src="controllers/dashboard.controller.js"></script>-->
@@ -30,23 +31,32 @@
         <div ng-controller="loanCtrl">
             <form name="myForm">
                 <label>
-                    User name:
-                    <input type="text" name="userName" ng-model="user.name" required>
+                    Loan Amount:
+                    <input type="text" name="userName" ng-model="loanAmt" required>
                     </label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
                     Required!</span>
                 </div>
+
+                <label for="singleSelect"> Interest Rates: </label><br>
+								<select name="singleSelect" id="singleSelect" ng-model="data.singleSelect">
+										<option value="">---Please select---</option> <!-- not selected / blank option -->
+										<option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
+										<option value="option-sub">Option 2</option>
+										<option value="option-unsub">Option 2</option>
+										<option value="option-bank">Private Bank: 4.2%</option>
+										<option value="option-uni">University: 4.0%</option>
+								</select>
+								<br />
+
                 <label>
-                    Last name:
-                    <input type="text" name="lastName" ng-model="user.last"
-                    ng-minlength="3" ng-maxlength="10">
+                    Loan Period:
+                    <input type="text" name="userName" ng-model="user.name" required> in months
                     </label>
                 <div role="alert">
-                    <span class="error" ng-show="myForm.lastName.$error.minlength">
-                        Too short!</span>
-                    <span class="error" ng-show="myForm.lastName.$error.maxlength">
-                        Too long!</span>
+                    <span class="error" ng-show="myForm.userName.$error.required">
+                    Required!</span>
                 </div>
             </form>
         </div>

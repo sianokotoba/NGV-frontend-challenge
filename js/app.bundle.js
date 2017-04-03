@@ -180,7 +180,8 @@ function ChartController($scope) {
 }
 
 
-function LoanController() {
+function LoanController($scope) {
+  $scope.loanAmt = 0;
 
 }
 
@@ -206,8 +207,18 @@ var angular = __webpack_require__(0);
 
 var angular = __webpack_require__(0);
 
-angular.module('main').service('GithubStatusService', __webpack_require__(7));
+angular.module('main')
+  .service('DirectLoanService', DirectLoanService);
 
+DirectLoanService.$inject = ['$http'];
+function DirectLoanService($http) {
+  var _this = this;
+  $http.get('/api/loans')
+    .success((data) => {
+      console.log("IN GET SUCCESS", data)
+      console.log("_this", _this)
+    })
+}
 
 
 /***/ }),
@@ -222,39 +233,6 @@ angular.module('main', [
 __webpack_require__(2);
 __webpack_require__(3);
 __webpack_require__(1);
-
-
-/***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-GithubStatusService.$inject = ['$http'];
-function GithubStatusService($http) {
-    var _this = this;
-    _this.getStatus = function getStatus() {
-        return $http({
-            method: 'jsonp',
-            url: 'https://status.github.com/api/status.json?callback=JSON_CALLBACK',
-            transformResponse: appendTransform($http.defaults.transformResponse, function(value) {
-                return (value.status === 'good');
-            })
-        });
-    }
-}
-
-// angular.module('dashboard').service('GithubStatusService', GithubStatusService);
-
-function appendTransform(defaults, transform) {
-  defaults = angular.isArray(defaults) ? defaults : [defaults];
-  return defaults.concat(transform);
-}
-
-module.exports = GithubStatusService;
 
 
 /***/ })

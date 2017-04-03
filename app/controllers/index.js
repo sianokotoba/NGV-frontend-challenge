@@ -174,6 +174,7 @@ function ChartController($scope) {
 }
 
 
-function LoanController() {
+function LoanController($scope) {
+  $scope.loanAmt = 0;
 
 }

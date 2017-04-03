@@ -2,9 +2,12 @@
 
 const express = require('express');
 const router = new express.Router();
+const DirectLoans = require('../models/loans');
+
 module.exports = router;
 
+// GET /api/loans
 router.get('/', function (req, res, next) {
-  console.log("this should hit the backend")
+  console.log("IN APi/loans", DirectLoans)
   res.json("HELLO THERE")
 });
