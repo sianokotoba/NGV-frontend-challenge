@@ -28,8 +28,8 @@
         <br />
         <h1>Congratulations, you've been awarded a financial aid package!</h1>
         <p>Please choose from the following loans:</p>
-        <div>
-            <form name="myForm" ng-controller="loanCtrl as loan">
+        <div ng-controller="loanCtrl as loan">
+            <form name="myForm" ng-submit="loan.submit()">
                 <label>
                     Loan Amount:
                     <input type="text" name="userName" ng-model="loan.loanAmt" required>
@@ -57,6 +57,8 @@
                     <span class="error" ng-show="myForm.userName.$error.required">
                     Required!</span>
                 </div>
+
+								<input type="submit" id="submit" value="Submit" />
             </form>
         </div>
         <div ng-controller="chartCtrl">

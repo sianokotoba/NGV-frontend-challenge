@@ -180,12 +180,18 @@ function ChartController($scope) {
 }
 
 
-function LoanController() {
+function LoanController($scope) {
   // $scope.loanAmt = 0;
   var _this = this;
   _this.loanAmt = 0;
   _this.intRate = 0.00;
   _this.loanPd = 0;
+
+  _this.submit = function() {
+    if (_this.loanAmt && _this.intRate && _this.loanPd) {
+      console.log("WORKING?", $scope)
+    }
+  }
 }
 
 
