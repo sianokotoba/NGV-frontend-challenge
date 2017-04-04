@@ -6,8 +6,6 @@
   "scripts": {
     "start": "webpack -w & nodemon --watch server -e js,html server/start.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "webpack",
-    "build-watch": "webpack -w",
     "build-css": "node-sass -w assets/stylesheets/index.scss -o public/stylesheets"
   },
   "keywords": [
