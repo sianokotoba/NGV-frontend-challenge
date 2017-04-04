@@ -3,16 +3,11 @@ var angular = require('angular');
 angular.module('main')
   .service('DirectLoanService', DirectLoanService);
 
-DirectLoanService.$inject = ['$http', '$scope'];
+DirectLoanService.$inject = ['$http'];
 function DirectLoanService($http, $scope) {
-  // var _this = this;
-  // $scope.exists = null;
+  var _this = this;
 
-  $http.get('/api/loans')
-    .success((data) => {
-      $scope.dls = data;
-    })
-    .error(() => {
-      console.log("There was an error fetching your data.")
-    })
+  _this.executeGet = function($scope) {
+    return $http.get('/api/loans')
+  }
 }

@@ -73,8 +73,6 @@ function payment(total, monthly) {
 }
 
 function LoanController($scope, DirectLoanService) {
-  $scope.DLS = DirectLoanService;
-  console.log("$scope.DLS", $scope)
   var _this = this;
 
   $scope.subVals = [];
@@ -219,23 +217,41 @@ function LoanController($scope, DirectLoanService) {
   $scope.monthlyBank = 0;
   $scope.monthlyUni = 0;
 
+  _this.dlsRates = [];
+  _this.subRate = 0;
+  _this.unsubRate = 0;
+
+
+
+
   _this.submit = function() {
+
+
     if ($scope.loanAmt && _this.intRate && _this.loanPd) {
-      console.log("HITT?")
-      $scope.monthlyPayment = calculate($scope.loanAmt, _this.intRate, _this.loanPd);
-      $scope.monthlyUnsub = 0;
-      $scope.monthlySub = 0;
-      $scope.monthlyBank = calculate($scope.loanAmt, 0.042, _this.loanPd);
-      $scope.monthlyUni = calculate($scope.loanAmt, 0.040, _this.loanPd);
+      DirectLoanService.executeGet()
+        .then(req => {
+          if (req.data.loans) {
+            req.data.loans.forEach(item => {
+              if (item.name === 'Direct Subsidized Loans') {
+                $scope.monthlySub = calculate($scope.loanAmt, item.rate, _this.loanPd);
+              } else if (item.name === 'Direct Unsubsidized Loans') {
+                $scope.monthlyUnsub = calculate($scope.loanAmt, item.rate, _this.loanPd);
+              }
+            });
+
+            $scope.monthlyPayment = calculate($scope.loanAmt, _this.intRate, _this.loanPd);
+            $scope.monthlyBank = calculate($scope.loanAmt, 0.042, _this.loanPd);
+            $scope.monthlyUni = calculate($scope.loanAmt, 0.040, _this.loanPd);
+          }
+        })
     }
 
     if ($scope.loanAmt) {
-      console.log("HERE?")
-      console.log("NEXT?", $scope)
       $scope.myJson.scaleX.values = [];
       for (let i = 0; i <= _this.loanPd; i++) {
         $scope.myJson.scaleX.values.push(i);
       }
+
       $scope.myJson.series[0].values = payment($scope.loanAmt, $scope.monthlyPayment);
 
       $scope.myJson.series[2].values = payment($scope.loanAmt, $scope.monthlyBank);
@@ -244,10 +260,7 @@ function LoanController($scope, DirectLoanService) {
 
     if ($scope.myJson.series[2].values.length) {
       _this.showChart = true;
-      DirectLoanService();
-      // console.log("DIR LOAN SERVICE", DirectLoanService());
     }
-    console.log("NEW SCOPE", $scope)
   }
 
 
