@@ -6,25 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/index.css"/>
     <script src="angular.min.js"></script>
     <script src="angular/angular.js"></script>
     <script src="angular-animate/angular-animate.js"></script>
-    <!--<script type="text/javascript" src="zingchart-angularjs/src/zingchart.min.js"></script>-->
     <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     <script src = "app.js"></script>
-		<script src="services/direct-loans.service.js"></script>
-    <!--<script src="directives/yep-nope.directive.js"></script>
-    <script src="services/github-status.service.js"></script>
-    <script src="controllers/dashboard.controller.js"></script>-->
-    <!--<script src="controllers/chart.controller.js"></script>-->
-    <!--<script src="directives/chart.directive.js"></script>-->
     <script src="vendor.bundle.js"></script>
     <script src="app.bundle.js"></script>
 </head>
 
 <body ng-app="main">
+    <header></header>
     <div class="container">
+
+
         <br />
         <h1>Congratulations, you've been awarded a financial aid package!</h1>
         <p>Please fill in the following information to see approximate monthly payments:</p>
@@ -47,7 +44,6 @@
                     <span class="error" ng-show="myForm.userName.$error.required">
                     Required!</span>
                 </div>
-								<br />
 
                 <label>
                     Loan Period:
@@ -58,11 +54,14 @@
                     Required!</span>
                 </div>
 
-								<input type="submit" id="submit" value="Submit" />
+                <div id="submitBtn">
+				    <input type="submit" id="submit" value="Calculate" />
+                </div>
             </form>
-					<div ng-show="loan.showChart">
-						<div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
-					</div>
+            <br />
+            <div ng-show="loan.showChart">
+                <div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height=""></div>
+            </div>
         </div>
     </div>
 </body>

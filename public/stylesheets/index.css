@@ -62,7 +62,15 @@ html {
  * Remove default margin.
  */
 body {
-  margin: 0; }
+  margin: 0;
+  background-color: rgba(96, 125, 139, 0.05); }
+
+header {
+  height: 50px;
+  background: #F0F0F0;
+  border: 1px solid #CCC;
+  width: 100vw;
+  margin: 0px auto; }
 
 /* ==========================================================================
    Links
@@ -265,10 +273,10 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */
   cursor: pointer;
-  /* 3 */ }
+  /* 3 */
+  border: 2px solid;
+  border-radius: 25px; }
 
 /**
  * Re-set default cursor for disabled elements.
@@ -336,3 +344,14 @@ textarea {
 table {
   border-collapse: collapse;
   border-spacing: 0; }
+
+.content-area {
+  border: 1px solid black;
+  margin-top: 10px;
+  padding: 10px; }
+
+.sample-show-hide {
+  transition: all linear 0.5s; }
+
+.sample-show-hide.ng-hide {
+  opacity: 0; }

@@ -46,11 +46,11 @@ function LoanController($scope, DirectLoanService) {
         fontFamily: "Helvetica"
     },
     type: "area",
-    title:{
-      text:"ZingChart Bar"
+    title: {
+      text: "NAME"
     },
     subtitle:{
-      text:"Default Style"
+      text:"Helloooooooo"
     },
     legend: {
         layout: "5x1",
@@ -197,17 +197,24 @@ function LoanController($scope, DirectLoanService) {
       })
     }
 
+    let monthly = [
+      _this.monthlyPayment,
+      _this.monthlySub,
+      _this.monthlyUnsub,
+      _this.monthlyBank,
+      _this.monthlyUni
+    ]
+
     if (_this.loanAmt) {
       $scope.myJson.scaleX.values = [];
       for (let i = 0; i <= _this.loanPd; i++) {
         $scope.myJson.scaleX.values.push(i);
       }
 
-      $scope.myJson.series[0].values = payment(_this.loanAmt, _this.monthlyPayment);
-      $scope.myJson.series[1].values = payment(_this.loanAmt, _this.monthlySub);
-      $scope.myJson.series[2].values = payment(_this.loanAmt, _this.monthlyUnsub);
-      $scope.myJson.series[3].values = payment(_this.loanAmt, _this.monthlyBank);
-      $scope.myJson.series[4].values = payment(_this.loanAmt, _this.monthlyUni);
+      $scope.myJson.series.forEach((item, i) => {
+        $scope.myJson.series[i].text += ` $${monthly[i].toFixed(2)}`
+        $scope.myJson.series[i].values = payment(_this.loanAmt, monthly[i]);
+      })
     }
 
     if ($scope.myJson.series[0].values.length) {

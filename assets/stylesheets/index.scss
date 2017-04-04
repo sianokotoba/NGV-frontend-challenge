@@ -73,6 +73,16 @@ html {
 
 body {
     margin: 0;
+    background-color: rgba(96,125,139,0.05);
+    // opacity: 0.3;
+}
+
+header {
+    height:50px;
+    background:#F0F0F0;
+    border:1px solid #CCC;
+    width:100vw;
+    margin:0px auto;
 }
 
 /* ==========================================================================
@@ -323,8 +333,10 @@ button,
 html input[type="button"], /* 1 */
 input[type="reset"],
 input[type="submit"] {
-    -webkit-appearance: button; /* 2 */
+    // -webkit-appearance: button; /* 2 */
     cursor: pointer; /* 3 */
+    border: 2px solid;
+    border-radius: 25px;
 }
 
 /**
