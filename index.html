@@ -27,12 +27,12 @@
     <div class="container">
         <br />
         <h1>Congratulations, you've been awarded a financial aid package!</h1>
-        <p>Please choose from the following loans:</p>
+        <p>Please fill in the following information to see approximate monthly payments:</p>
         <div ng-controller="loanCtrl as loan">
             <form name="myForm" ng-submit="loan.submit()">
                 <label>
                     Loan Amount:
-                    <input type="text" name="loanAmtInput" ng-model="loanAmt" required>
+                    <input type="text" name="loanAmtInput" ng-model="loan.loanAmt" required>
                     </label>
                 <div role="alert">
                     <span class="error" ng-show="myForm.userName.$error.required">
@@ -63,16 +63,6 @@
 					<div ng-show="loan.showChart">
 						<div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
 					</div>
-        </div>
-        <!--</div>-->
-        <div ng-init="checked=false">
-            <label>
-                <input type="checkbox" ng-model="checked" />
-                Please choose the following loans:
-            </label>
-            <div class="content-area sample-show-hide" ng-show="checked">
-                Content...
-            </div>
         </div>
     </div>
 </body>

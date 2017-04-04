@@ -4,48 +4,6 @@ var angular = require('angular');
 
 angular.module('main')
   .controller('loanCtrl', LoanController)
-  .controller('chartCtrl', ChartController)
-
-function ChartController($scope) {
-  var _this = this;
-
-
-  $scope.months = [
-    {
-      name: 'January'
-    }, {
-      name: 'February'
-    }, {
-      name: 'March'
-    }, {
-      name: 'April'
-    }, {
-      name: 'May'
-    }, {
-      name: 'June'
-    }, {
-      name: 'July'
-    }, {
-      name: 'August'
-    }, {
-      name: 'September'
-    }, {
-      name: 'October'
-    }, {
-      name: 'November'
-    }, {
-      name: 'December'
-    }
-  ]
-
-  $scope.test = "I am a test"
-
-  $scope.$watch($scope.bankVals, function(newVal, oldVal) {
-    console.log("SCOPE???????", $scope)
-  })
-
-  // console.log("$SC find for payment array", $scope)
-}
 
 function calculate(amt, rate, time) {
   /*
@@ -61,7 +19,8 @@ function calculate(amt, rate, time) {
 }
 
 function payment(total, monthly) {
-  let array = [];
+  total = parseInt(total);
+  let array = [total];
   while (total > 0) {
     let diff = total - monthly > 0 ? total - monthly : null;
     if (diff) {
@@ -73,15 +32,6 @@ function payment(total, monthly) {
 }
 
 function LoanController($scope, DirectLoanService) {
-  var _this = this;
-
-  $scope.subVals = [];
-  $scope.unsubVals = [];
-  $scope.bankVals = [];
-  $scope.uniVals = [];
-
-  _this.showChart = false;
-
   $scope.myJson = {
     gui: {
       contextMenu: {
@@ -113,9 +63,6 @@ function LoanController($scope, DirectLoanService) {
         item: {
             fontColor: "white"
         }
-        // x:"20%",
-        // y:"8%"
-
     },
     scaleX: {
         maxItems: 100,
@@ -192,79 +139,83 @@ function LoanController($scope, DirectLoanService) {
         lineColor: "#4AD8CC"
     }, {
         text: "Private Bank",
-        values: $scope.bankVals,
+        values: [],
         backgroundColor1: "#1D8CD9",
         backgroundColor2: "#1D8CD9",
         lineColor: "#1D8CD9"
     }, {
         text: "University",
-        values: $scope.uniVals,
+        values: [],
         backgroundColor1: "#D8CD98",
         backgroundColor2: "#272822",
         lineColor: "#D8CD98"
     }]
   };
 
+  var _this = this;
+
   // local state
+  _this.showChart = false;
+
   _this.intRate = 0.00;
   _this.loanPd = 0;
+  _this.loanAmt = 0;
 
-  $scope.loanAmt = 0;
-  // global state
-  $scope.monthlyPayment = 0;
-  $scope.monthlyUnsub = 0;
-  $scope.monthlySub = 0;
-  $scope.monthlyBank = 0;
-  $scope.monthlyUni = 0;
+  _this.monthlyPayment = 0;
+  _this.monthlyUnsub = 0;
+  _this.monthlySub = 0;
+  _this.monthlyBank = 0;
+  _this.monthlyUni = 0;
 
   _this.dlsRates = [];
   _this.subRate = 0;
   _this.unsubRate = 0;
 
-
-
-
-  _this.submit = function() {
-
-
-    if ($scope.loanAmt && _this.intRate && _this.loanPd) {
-      DirectLoanService.executeGet()
-        .then(req => {
-          if (req.data.loans) {
-            req.data.loans.forEach(item => {
-              if (item.name === 'Direct Subsidized Loans') {
-                $scope.monthlySub = calculate($scope.loanAmt, item.rate, _this.loanPd);
-              } else if (item.name === 'Direct Unsubsidized Loans') {
-                $scope.monthlyUnsub = calculate($scope.loanAmt, item.rate, _this.loanPd);
-              }
-            });
-
-            $scope.monthlyPayment = calculate($scope.loanAmt, _this.intRate, _this.loanPd);
-            $scope.monthlyBank = calculate($scope.loanAmt, 0.042, _this.loanPd);
-            $scope.monthlyUni = calculate($scope.loanAmt, 0.040, _this.loanPd);
+  DirectLoanService.executeGet()
+    .then(req => {
+      if (req.data.loans) {
+        req.data.loans.forEach(item => {
+          if (item.name === 'Direct Subsidized Loans' || item.name === 'Direct Unsubsidized Loans') {
+            _this.dlsRates.push(item)
           }
         })
+      }
+    })
+
+  _this.submit = function() {
+    if (_this.loanAmt && _this.intRate && _this.loanPd && _this.dlsRates.length > 0) {
+      _this.monthlyPayment = calculate(_this.loanAmt, _this.intRate, _this.loanPd);
+      _this.monthlyBank = calculate(_this.loanAmt, 0.042, _this.loanPd);
+      _this.monthlyUni = calculate(_this.loanAmt, 0.040, _this.loanPd);
+
+      _this.dlsRates.forEach(item => {
+        if (item.name === 'Direct Subsidized Loans') {
+          _this.monthlySub = calculate(_this.loanAmt, item.rate, _this.loanPd);
+        } else {
+          _this.monthlyUnsub = calculate(_this.loanAmt, item.rate, _this.loanPd);
+        }
+      })
     }
 
-    if ($scope.loanAmt) {
+    if (_this.loanAmt) {
       $scope.myJson.scaleX.values = [];
       for (let i = 0; i <= _this.loanPd; i++) {
         $scope.myJson.scaleX.values.push(i);
       }
 
-      $scope.myJson.series[0].values = payment($scope.loanAmt, $scope.monthlyPayment);
-
-      $scope.myJson.series[2].values = payment($scope.loanAmt, $scope.monthlyBank);
-      $scope.myJson.series[3].values = payment($scope.loanAmt, $scope.monthlyUni);
+      $scope.myJson.series[0].values = payment(_this.loanAmt, _this.monthlyPayment);
+      $scope.myJson.series[1].values = payment(_this.loanAmt, _this.monthlySub);
+      $scope.myJson.series[2].values = payment(_this.loanAmt, _this.monthlyUnsub);
+      $scope.myJson.series[3].values = payment(_this.loanAmt, _this.monthlyBank);
+      $scope.myJson.series[4].values = payment(_this.loanAmt, _this.monthlyUni);
     }
 
-    if ($scope.myJson.series[2].values.length) {
+    if ($scope.myJson.series[0].values.length) {
       _this.showChart = true;
     }
+
+    if (!_this.loanAmt || !_this.intRate || !_this.loanPd) {
+      _this.showChart = false;
+    }
   }
-
-
-  // if ($scope.$$nextSibling.loanAmt > 0) {
-  //   console.log("HI")
-  // }
 }
