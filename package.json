@@ -2,11 +2,10 @@
   "name": "angular-webpack-starter",
   "version": "1.0.0",
   "description": "NextGenVest Front End Challenge",
-  "main": "index.js",
+  "main": "server/start.js",
   "scripts": {
-    "start": "http-server ./ -a localhost -p 8000 -c-1",
+    "start": "webpack -w & nodemon --watch server -e js,html server/start.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "webpack",
     "build-css": "node-sass -w assets/stylesheets/index.scss -o public/stylesheets"
   },
   "keywords": [
@@ -24,6 +23,14 @@
     "webpack": "^2.3.2"
   },
   "dependencies": {
-    "http-server": "^0.9.0"
+    "angular-animate": "^1.6.4",
+    "babel": "^6.23.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "http-server": "^0.9.0",
+    "morgan": "^1.8.1",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "zingchart-angularjs": "^1.2.0"
   }
 }

@@ -1,26 +1,70 @@
 <!doctype html>
 <html>
-    <head>
-        <title>Dashboard</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<head>
+    <title>NGV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <script src="angular.min.js"></script>
+    <script src="angular/angular.js"></script>
+    <script src="angular-animate/angular-animate.js"></script>
+    <!--<script type="text/javascript" src="zingchart-angularjs/src/zingchart.min.js"></script>-->
+    <script type="text/javascript" src="zingchart-angularjs/src/zingchart-angularjs.js"></script>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src = "app.js"></script>
+		<script src="services/direct-loans.service.js"></script>
+    <!--<script src="directives/yep-nope.directive.js"></script>
+    <script src="services/github-status.service.js"></script>
+    <script src="controllers/dashboard.controller.js"></script>-->
+    <!--<script src="controllers/chart.controller.js"></script>-->
+    <!--<script src="directives/chart.directive.js"></script>-->
+    <script src="vendor.bundle.js"></script>
+    <script src="app.bundle.js"></script>
+</head>
 
-        <script src="js/angular.min.js"></script>
-        <script src="app/app.js"></script>
-        <script src="app/directives/yep-nope.directive.js"></script>
-        <script src="app/services/github-status.service.js"></script>
-        <script src="app/controllers/dashboard.controller.js"></script>
-
-        <script src=”js/vendor.bundle.js”></script>
-        <script src=”js/app.bundle.js”></script>
-    </head>
-    <body ng-app="dashboard">
-        <div class="container">
+<body ng-app="main">
+    <div class="container">
         <br />
-        <div ng-controller="dashboardController as ctrl">
-            <div class="alert alert-danger" ng-class="{'alert-danger': !ctrl.github, 'alert-success': ctrl.github}">Is GitHub Up? <yep-nope check="ctrl.github"></yep-nope></div>
+        <h1>Congratulations, you've been awarded a financial aid package!</h1>
+        <p>Please fill in the following information to see approximate monthly payments:</p>
+        <div ng-controller="loanCtrl as loan">
+            <form name="myForm" ng-submit="loan.submit()">
+                <label>
+                    Loan Amount:
+                    <input type="text" name="loanAmtInput" ng-model="loan.loanAmt" required>
+                    </label>
+                <div role="alert">
+                    <span class="error" ng-show="myForm.userName.$error.required">
+                    Required!</span>
+                </div>
+
+                <label>
+                    Interest Rate:
+                    <input type="text" name="intRateInput" ng-model="loan.intRate" required> % per year
+										</label>
+                <div role="alert">
+                    <span class="error" ng-show="myForm.userName.$error.required">
+                    Required!</span>
+                </div>
+								<br />
+
+                <label>
+                    Loan Period:
+                    <input type="text" name="loanPdInput" ng-model="loan.loanPd" place-holder="0.00" required> in months
+                    </label>
+                <div role="alert">
+                    <span class="error" ng-show="myForm.userName.$error.required">
+                    Required!</span>
+                </div>
+
+								<input type="submit" id="submit" value="Submit" />
+            </form>
+					<div ng-show="loan.showChart">
+						<div zingchart id="chart-1" zc-json="myJson" zc-width="100%" zc-height="568px"></div>
+					</div>
         </div>
-        </div>
-    </body>
+    </div>
+</body>
+
 </html>

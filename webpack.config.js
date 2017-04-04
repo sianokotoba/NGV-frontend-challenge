@@ -1,3 +1,5 @@
+'use strict';
+
 var webpack = require('webpack');
 
 var options = {
@@ -17,9 +19,10 @@ var commonChunk = new webpack.optimize.CommonsChunkPlugin(options);
 
 
 module.exports = {
-  context: __dirname + '/app',
+  context: __dirname,
+  devtool: 'source-map',
   entry: {
-    app: './app.js',
+    app: './app/app.js',
     vendor: ['angular']
   },
   module: {
